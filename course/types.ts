@@ -101,10 +101,16 @@ export type ExploreItem = {
   title: string;
   level: LevelId;
   duration: string;
-  type: "Video" | "Podcast" | "Mini Story" | "Reading";
+  type: "Video" | "Podcast" | "Movie" | "Culture";
   topic: string;
-  variant: "México" | "Latin America" | "España";
+  variant: "Mexico" | "Latin America" | "Spain" | "Mixed";
   category: string;
+  provider: string;
+  url: string;
+  description: string;
+  useFor: string;
+  access: "Free" | "Free/Paid" | "May need account" | "Region may vary";
+  learnerNote: string;
 };
 
 export type RegionalVariant = "broad_latam" | "mexico" | "spain" | "needs_review";
