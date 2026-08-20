@@ -86,6 +86,73 @@ export const defaultProgress: ProgressState = {
   }
 };
 
+export function normalizeProgress(parsed: Partial<ProgressState>): ProgressState {
+  const currentVocabularyById = new Map(initialVocabulary.map((item) => [item.id, item]));
+  const savedVocabulary = (parsed.vocabulary ?? [])
+    .filter((item) => !RETIRED_VOCABULARY_IDS.has(item.id))
+    .map((item) => {
+      const currentItem = currentVocabularyById.get(item.id);
+
+      return currentItem
+        ? {
+            ...item,
+            term: currentItem.term,
+            meaning: currentItem.meaning,
+            meaningZh: currentItem.meaningZh,
+            lessonId: currentItem.lessonId
+          }
+        : item;
+    });
+  const savedVocabularyIds = new Set(savedVocabulary.map((item) => item.id));
+
+  return {
+    ...defaultProgress,
+    ...parsed,
+    vocabulary: [
+      ...savedVocabulary,
+      ...initialVocabulary.filter((item) => !savedVocabularyIds.has(item.id))
+    ]
+  };
+}
+
+export function encodeProgressBackup(progress: ProgressState): string {
+  const payload = JSON.stringify({
+    app: "spanish-learning-os",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    progress
+  });
+  const bytes = new TextEncoder().encode(payload);
+  let binary = "";
+
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+
+  return btoa(binary);
+}
+
+export function decodeProgressBackup(code: string): ProgressState {
+  const cleaned = code.trim();
+
+  if (!cleaned) {
+    throw new Error("EMPTY_BACKUP");
+  }
+
+  const binary = atob(cleaned);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  const parsed = JSON.parse(new TextDecoder().decode(bytes)) as {
+    app?: string;
+    progress?: Partial<ProgressState>;
+  };
+
+  if (parsed.app !== "spanish-learning-os" || !parsed.progress) {
+    throw new Error("INVALID_BACKUP");
+  }
+
+  return normalizeProgress(parsed.progress);
+}
+
 export function loadProgress(): ProgressState {
   if (typeof window === "undefined") {
     return defaultProgress;
@@ -97,33 +164,7 @@ export function loadProgress(): ProgressState {
       return defaultProgress;
     }
 
-    const parsed = JSON.parse(saved) as Partial<ProgressState>;
-    const currentVocabularyById = new Map(initialVocabulary.map((item) => [item.id, item]));
-    const savedVocabulary = (parsed.vocabulary ?? [])
-      .filter((item) => !RETIRED_VOCABULARY_IDS.has(item.id))
-      .map((item) => {
-        const currentItem = currentVocabularyById.get(item.id);
-
-        return currentItem
-          ? {
-              ...item,
-              term: currentItem.term,
-              meaning: currentItem.meaning,
-              meaningZh: currentItem.meaningZh,
-              lessonId: currentItem.lessonId
-            }
-          : item;
-      });
-    const savedVocabularyIds = new Set(savedVocabulary.map((item) => item.id));
-
-    return {
-      ...defaultProgress,
-      ...parsed,
-      vocabulary: [
-        ...savedVocabulary,
-        ...initialVocabulary.filter((item) => !savedVocabularyIds.has(item.id))
-      ]
-    };
+    return normalizeProgress(JSON.parse(saved) as Partial<ProgressState>);
   } catch {
     return defaultProgress;
   }
