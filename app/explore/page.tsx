@@ -1,59 +1,131 @@
-import { Clock, Filter, Headphones, PlayCircle } from "lucide-react";
+import { Clock, ExternalLink, Film, Globe2, Headphones, PlayCircle } from "lucide-react";
 import { Card } from "@/components/Card";
-import { ShadowLine } from "@/components/ShadowLine";
 import { exploreItems } from "@/course/content/explore";
 import { levelLabel } from "@/lib/format";
 
 const iconByType = {
   Video: PlayCircle,
   Podcast: Headphones,
-  "Mini Story": PlayCircle,
-  Reading: Filter
+  Movie: Film,
+  Culture: Globe2
 };
 
-const sampleLineByTopic: Record<string, string> = {
-  "Daily Life": "Buenos días.",
-  Conversation: "Hola, ¿cómo te llamas?",
-  Work: "Trabajo en una empresa."
+const groups = [
+  {
+    id: "Listen",
+    title: "Podcasts",
+    subtitle: "Use these for repeated listening, not word-by-word translation."
+  },
+  {
+    id: "Watch",
+    title: "Videos",
+    subtitle: "Short visual input is the easiest way to build listening confidence."
+  },
+  {
+    id: "Movie",
+    title: "Movies + Culture",
+    subtitle: "Legal film and culture entrances for when you want real Spanish outside lessons."
+  }
+];
+
+const accessStyle: Record<string, string> = {
+  Free: "bg-mint/15 text-mint",
+  "Free/Paid": "bg-sun/25 text-clay",
+  "May need account": "bg-stone-100 text-stone-700",
+  "Region may vary": "bg-ocean/10 text-ocean"
 };
 
 export default function ExplorePage() {
   return (
-    <div className="space-y-6">
-      <header>
+    <div className="space-y-7">
+      <header className="max-w-3xl">
         <p className="text-sm font-bold text-clay">Input Library</p>
-        <h1 className="mt-1 text-3xl font-black text-ink sm:text-4xl">Short input you can actually use</h1>
-        <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-stone-600">
-          暂时只保留适合 Pre-A1 的短输入：听一句、看意思、跟读一句。
+        <h1 className="mt-1 text-3xl font-black text-ink sm:text-4xl">Real Spanish you can open now</h1>
+        <p className="mt-2 text-sm font-semibold leading-6 text-stone-600">
+          Podcasts, videos and legal film sources for extra input. Pick one small resource, repeat it, then bring useful lines back into Learn and Review.
         </p>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {exploreItems.filter((item) => item.topic !== "Fun").slice(0, 3).map((item) => {
-          const Icon = iconByType[item.type];
+      <section className="grid gap-3 md:grid-cols-3">
+        {groups.map((group) => {
+          const count = exploreItems.filter((item) => item.category === group.id).length;
+
           return (
-            <Card key={item.id}>
-              <div className="flex items-start justify-between gap-4">
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-paper text-clay">
-                  <Icon className="h-6 w-6" aria-hidden />
-                </div>
-                <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-black text-stone-500">{item.variant}</span>
-              </div>
-              <h2 className="mt-5 text-xl font-black">{item.title}</h2>
-              <div className="mt-3 flex flex-wrap gap-2 text-xs font-black text-stone-500">
-                <span className="rounded-full bg-mint/15 px-3 py-1 text-mint">{levelLabel(item.level)}</span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-3 py-1">
-                  <Clock className="h-3.5 w-3.5" aria-hidden />
-                  {item.duration}
-                </span>
-                <span className="rounded-full bg-stone-100 px-3 py-1">{item.type}</span>
-                <span className="rounded-full bg-stone-100 px-3 py-1">{item.topic}</span>
-              </div>
-              <ShadowLine compact title="Sample line" className="mt-5" lines={[sampleLineByTopic[item.topic] ?? "Hola, mucho gusto."]} />
-            </Card>
+            <a
+              key={group.id}
+              href={`#${group.id}`}
+              className="rounded-lg border border-stone-200 bg-white p-4 shadow-soft transition hover:border-clay/40 hover:bg-[#fffdf8]"
+            >
+              <div className="text-xs font-black uppercase text-clay">{count} resources</div>
+              <div className="mt-1 text-xl font-black text-ink">{group.title}</div>
+              <p className="mt-2 text-sm font-semibold leading-6 text-stone-600">{group.subtitle}</p>
+            </a>
           );
         })}
       </section>
+
+      {groups.map((group) => {
+        const items = exploreItems.filter((item) => item.category === group.id);
+
+        return (
+          <section key={group.id} id={group.id} className="scroll-mt-6 space-y-4">
+            <div>
+              <p className="text-sm font-black text-clay">{group.title}</p>
+              <h2 className="mt-1 text-2xl font-black text-ink">{group.subtitle}</h2>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+              {items.map((item) => {
+                const Icon = iconByType[item.type];
+
+                return (
+                  <Card key={item.id} className="p-0">
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex h-full flex-col p-5 text-ink transition hover:bg-[#fffdf8]"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="grid h-12 w-12 place-items-center rounded-2xl bg-paper text-clay">
+                          <Icon className="h-6 w-6" aria-hidden />
+                        </div>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-3 py-1 text-xs font-black text-stone-600">
+                          <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                          Open
+                        </span>
+                      </div>
+
+                      <div className="mt-5 min-w-0">
+                        <p className="text-xs font-black uppercase text-stone-500">{item.provider}</p>
+                        <h3 className="mt-1 text-xl font-black leading-7">{item.title}</h3>
+                        <p className="mt-3 text-sm font-semibold leading-6 text-stone-700">{item.description}</p>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
+                        <span className="rounded-full bg-mint/15 px-3 py-1 text-mint">{levelLabel(item.level)}</span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-3 py-1 text-stone-600">
+                          <Clock className="h-3.5 w-3.5" aria-hidden />
+                          {item.duration}
+                        </span>
+                        <span className="rounded-full bg-stone-100 px-3 py-1 text-stone-600">{item.variant}</span>
+                        <span className={`rounded-full px-3 py-1 ${accessStyle[item.access]}`}>{item.access}</span>
+                      </div>
+
+                      <div className="mt-5 rounded-2xl bg-stone-100 p-4">
+                        <div className="text-xs font-black uppercase text-clay">How to use it</div>
+                        <p className="mt-2 text-sm font-bold leading-6 text-stone-800">{item.useFor}</p>
+                      </div>
+
+                      <p className="mt-4 text-xs font-semibold leading-5 text-stone-500">{item.learnerNote}</p>
+                    </a>
+                  </Card>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 }
