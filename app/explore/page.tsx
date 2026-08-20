@@ -28,6 +28,12 @@ const groups = [
   }
 ];
 
+const startHereIds = [
+  "dreaming-spanish-superbeginner",
+  "coffee-break-spanish",
+  "duolingo-spanish-podcast"
+];
+
 const accessStyle: Record<string, string> = {
   Free: "bg-mint/15 text-mint",
   "Free/Paid": "bg-sun/25 text-clay",
@@ -36,6 +42,10 @@ const accessStyle: Record<string, string> = {
 };
 
 export default function ExplorePage() {
+  const startHere = startHereIds
+    .map((id) => exploreItems.find((item) => item.id === id))
+    .filter((item): item is (typeof exploreItems)[number] => Boolean(item));
+
   return (
     <div className="space-y-7">
       <header className="max-w-3xl">
@@ -45,6 +55,44 @@ export default function ExplorePage() {
           Podcasts, videos and legal film sources for extra input. Pick one small resource, repeat it, then bring useful lines back into Learn and Review.
         </p>
       </header>
+
+      <section className="rounded-[1.5rem] bg-ink p-5 text-white shadow-soft">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-black text-sun">Start here today</p>
+            <h2 className="mt-1 text-2xl font-black">Do not choose. Open one of these first.</h2>
+          </div>
+          <p className="max-w-md text-sm font-semibold leading-6 text-stone-200">
+            First watch Dreaming Spanish. If that asks for login, use Coffee Break Spanish instead.
+          </p>
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-3">
+          {startHere.map((item, index) => {
+            const Icon = iconByType[item.type];
+
+            return (
+              <a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-2xl bg-white p-4 text-ink transition hover:bg-[#fff8e8]"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-sun px-3 py-1 text-xs font-black text-ink">Pick {index + 1}</span>
+                  <Icon className="h-5 w-5 text-clay" aria-hidden />
+                </div>
+                <h3 className="mt-3 text-lg font-black leading-6">{item.title}</h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-stone-700">{item.useFor}</p>
+                <div className="mt-3 inline-flex items-center gap-2 text-sm font-black text-clay">
+                  Open directly
+                  <ExternalLink className="h-4 w-4" aria-hidden />
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="grid gap-3 md:grid-cols-3">
         {groups.map((group) => {
