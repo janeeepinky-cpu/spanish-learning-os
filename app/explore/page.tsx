@@ -29,9 +29,9 @@ const groups = [
 ];
 
 const startHereIds = [
-  "dreaming-spanish-superbeginner",
-  "coffee-break-spanish",
-  "duolingo-spanish-podcast"
+  "coffee-break-name",
+  "coffee-break-how-are-you",
+  "coffee-break-origin"
 ];
 
 const accessStyle: Record<string, string> = {
@@ -52,7 +52,7 @@ export default function ExplorePage() {
         <p className="text-sm font-bold text-clay">Input Library</p>
         <h1 className="mt-1 text-3xl font-black text-ink sm:text-4xl">Real Spanish you can open now</h1>
         <p className="mt-2 text-sm font-semibold leading-6 text-stone-600">
-          Podcasts, videos and legal film sources for extra input. Pick one small resource, repeat it, then bring useful lines back into Learn and Review.
+          Current stage: Day 1-7, first conversation. Start with short videos that match your lessons, then use podcasts and films later for extra exposure.
         </p>
       </header>
 
@@ -60,10 +60,10 @@ export default function ExplorePage() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-black text-sun">Start here today</p>
-            <h2 className="mt-1 text-2xl font-black">Do not choose. Open one of these first.</h2>
+            <h2 className="mt-1 text-2xl font-black">Open these in order for your current level.</h2>
           </div>
           <p className="max-w-md text-sm font-semibold leading-6 text-stone-200">
-            First watch Dreaming Spanish. If that asks for login, use Coffee Break Spanish instead.
+            Do name first, then state, then origin. Watch one clip twice and repeat only the sentence patterns you already know.
           </p>
         </div>
         <div className="mt-5 grid gap-3 lg:grid-cols-3">
