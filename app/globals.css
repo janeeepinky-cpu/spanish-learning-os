@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #f7f4ed;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: #f7f4ed;
+  color: #202124;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 6rem);
+}
+
+.progress-ring {
+  background: conic-gradient(var(--ring-color) var(--ring-value), #f1e5d4 0);
+}

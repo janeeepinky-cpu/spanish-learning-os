@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Spanish OS">
+  <rect width="512" height="512" rx="104" fill="#202124"/>
+  <circle cx="386" cy="126" r="54" fill="#f4ba31"/>
+  <path d="M112 138c0-21 17-38 38-38h148c21 0 38 17 38 38v250c0 14-15 23-27 16l-85-48-85 48c-12 7-27-2-27-16V138z" fill="#fff7e6"/>
+  <path d="M158 158h132M158 216h132M158 274h88" stroke="#202124" stroke-width="24" stroke-linecap="round"/>
+  <text x="256" y="438" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" fill="#f4ba31">ES</text>
+</svg>

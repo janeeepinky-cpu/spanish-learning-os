@@ -1,0 +1,10 @@
+.next/
+out/
+dist/
+node_modules/
+.pnpm-store/
+tsconfig.tsbuildinfo
+dev-server*.log
+tmp_preview_checks/
+.env*
+!.env.example
