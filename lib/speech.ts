@@ -53,42 +53,22 @@ function voiceScore(voice: SpeechSynthesisVoice) {
   return languageScore(voice.lang) + premiumScore + localPenalty;
 }
 
-async function getVoices() {
-  const synth = window.speechSynthesis;
-  const voices = synth.getVoices();
-
-  if (voices.length > 0) {
-    return voices;
-  }
-
-  return new Promise<SpeechSynthesisVoice[]>((resolve) => {
-    const finish = () => {
-      cleanup();
-      resolve(synth.getVoices());
-    };
-    const cleanup = () => synth.removeEventListener?.("voiceschanged", finish);
-
-    synth.addEventListener?.("voiceschanged", finish, { once: true });
-    window.setTimeout(finish, 800);
-  });
-}
-
-async function chooseSpanishVoice() {
-  const voices = await getVoices();
+function chooseSpanishVoice() {
+  const voices = window.speechSynthesis.getVoices();
 
   return voices
     .filter((voice) => languageScore(voice.lang) > 0)
     .sort((a, b) => voiceScore(b) - voiceScore(a))[0];
 }
 
-export async function speakSpanish(text: string) {
+export function speakSpanish(text: string) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     return;
   }
 
   const synth = window.speechSynthesis;
   const cleanText = toPronunciationText(text);
-  const voice = await chooseSpanishVoice();
+  const voice = chooseSpanishVoice();
   const utterance = new SpeechSynthesisUtterance(cleanText);
 
   synth.cancel();
