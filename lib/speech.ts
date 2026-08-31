@@ -61,6 +61,18 @@ function chooseSpanishVoice() {
     .sort((a, b) => voiceScore(b) - voiceScore(a))[0];
 }
 
+export function primeSpanishSpeech() {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return false;
+  }
+
+  const synth = window.speechSynthesis;
+  synth.getVoices();
+  synth.addEventListener?.("voiceschanged", () => synth.getVoices(), { once: true });
+
+  return true;
+}
+
 export function speakSpanish(text: string) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
     return;
@@ -75,6 +87,7 @@ export function speakSpanish(text: string) {
   utterance.lang = voice?.lang || "es-MX";
   utterance.rate = 0.9;
   utterance.pitch = 1;
+  utterance.volume = 1;
 
   if (voice) {
     utterance.voice = voice;
