@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { BookOpen, CheckCircle2, Ear, Languages, Mic2, Play, Volume2 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { alphabetRows, currentPhonicsDrills, phonicsSections, sourceNotes, vowelSounds } from "@/course/content/phonics";
-import { speakSpanish } from "@/lib/speech";
+import { primeSpanishSpeech, speakSpanish } from "@/lib/speech";
 
 const stageLabels = {
   now: "Now",
@@ -23,8 +24,13 @@ const priorityStyles = {
 };
 
 export default function PhonicsPage() {
+  const [audioAvailable, setAudioAvailable] = useState(true);
   const nowDrills = currentPhonicsDrills.filter((item) => item.stage === "now");
   const nextDrills = currentPhonicsDrills.filter((item) => item.stage === "next");
+
+  useEffect(() => {
+    setAudioAvailable(primeSpanishSpeech());
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -62,6 +68,13 @@ export default function PhonicsPage() {
           <div className="flex items-center gap-2 text-sm font-black text-clay">
             <CheckCircle2 className="h-4 w-4" aria-hidden />
             How to practice
+          </div>
+          <div
+            className={`mt-4 inline-flex rounded-full px-3 py-1 text-xs font-black ${
+              audioAvailable ? "bg-mint/15 text-mint" : "bg-stone-100 text-stone-700"
+            }`}
+          >
+            {audioAvailable ? "Audio ready" : "Audio unavailable in this browser"}
           </div>
           <div className="mt-4 space-y-3 text-sm font-bold leading-6 text-stone-800">
             <p>先看音节，再听一遍，然后自己读一遍。</p>
