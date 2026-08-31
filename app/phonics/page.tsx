@@ -2,7 +2,7 @@
 
 import { BookOpen, CheckCircle2, Ear, Languages, Mic2, Play, Volume2 } from "lucide-react";
 import { Card } from "@/components/Card";
-import { alphabetRows, currentPhonicsDrills, phonicsSections, sourceNotes } from "@/course/content/phonics";
+import { alphabetRows, currentPhonicsDrills, phonicsSections, sourceNotes, vowelSounds } from "@/course/content/phonics";
 import { speakSpanish } from "@/lib/speech";
 
 const stageLabels = {
@@ -73,22 +73,63 @@ export default function PhonicsPage() {
 
       <section className="space-y-4">
         <div>
+          <p className="text-sm font-black text-clay">Vowels</p>
+          <h2 className="mt-1 text-2xl font-black text-ink">五个元音每个都能单独听</h2>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {vowelSounds.map((vowel) => (
+            <Card key={vowel.letter} className="p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-5xl font-black leading-none text-ink">{vowel.letter}</div>
+                  <div className="mt-2 font-mono text-sm font-black text-clay">{vowel.ipa}</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => speakSpanish(vowel.audioText)}
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sun text-ink transition hover:bg-[#f0b72f]"
+                  aria-label={`Play vowel ${vowel.letter}`}
+                >
+                  <Volume2 className="h-5 w-5" aria-hidden />
+                </button>
+              </div>
+              <p className="mt-4 text-sm font-bold leading-6 text-stone-800">{vowel.mouth}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {vowel.examples.map((example) => (
+                  <button
+                    key={example}
+                    type="button"
+                    onClick={() => speakSpanish(example)}
+                    className="rounded-full bg-paper px-3 py-1 text-xs font-black text-ink transition hover:bg-[#f6dfaa]"
+                  >
+                    {example}
+                  </button>
+                ))}
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div>
           <p className="text-sm font-black text-clay">Alphabet</p>
-          <h2 className="mt-1 text-2xl font-black text-ink">字母表先作为发音索引</h2>
+          <h2 className="mt-1 text-2xl font-black text-ink">字母表：点每张卡听字母名和例词</h2>
         </div>
 
         <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {alphabetRows.map(([letter, name, example]) => (
+          {alphabetRows.map((row) => (
             <button
-              key={letter}
+              key={row.letter}
               type="button"
-              onClick={() => speakSpanish(example)}
+              onClick={() => speakSpanish(row.audioText)}
               className="flex items-center justify-between gap-3 rounded-lg border border-stone-200 bg-white px-4 py-3 text-left shadow-soft transition hover:border-clay/40 hover:bg-[#fffdf8]"
             >
-              <span className="text-2xl font-black text-ink">{letter}</span>
+              <span className="text-2xl font-black text-ink">{row.letter}</span>
               <span className="min-w-0 text-right">
-                <span className="block text-xs font-black uppercase text-clay">{name}</span>
-                <span className="block truncate text-sm font-bold text-stone-700">{example}</span>
+                <span className="block text-xs font-black uppercase text-clay">{row.name}</span>
+                <span className="block truncate text-sm font-bold text-stone-700">{row.example}</span>
               </span>
             </button>
           ))}
