@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Flame, Mic, RotateCcw, Sparkles, Target } from "lucide-react";
+import { BookOpen, Flame, Mic, RotateCcw, Sparkles, Target, Volume2 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ShadowLine } from "@/components/ShadowLine";
@@ -52,6 +52,24 @@ export default function TodayPage() {
           <ProgressBar value={dailyPercent} />
         </div>
       </Card>
+
+      <Link
+        href="/phonics"
+        className="flex items-center justify-between gap-4 rounded-lg border border-stone-200 bg-white p-4 text-ink shadow-soft transition hover:border-clay/40 hover:bg-[#fffdf8]"
+      >
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-paper text-clay">
+            <Volume2 className="h-5 w-5" aria-hidden />
+          </div>
+          <div>
+            <div className="text-sm font-black text-clay">Sounds first</div>
+            <p className="mt-1 text-sm font-bold leading-6 text-stone-700">
+              今天先看拼读：a e i o u、h 不发音、ll 接近 y、重音怎么读。
+            </p>
+          </div>
+        </div>
+        <span className="shrink-0 rounded-full bg-sun px-3 py-1 text-xs font-black">5 min</span>
+      </Link>
 
       <Card className="bg-ink p-4 text-white sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_20rem]">
