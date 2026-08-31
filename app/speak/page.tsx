@@ -11,7 +11,7 @@ const entries = [
   { label: "Shadowing", icon: Repeat2, active: true }
 ];
 
-const targetWords = ["perro", "pero", "carro", "correo"];
+const targetWords = ["Hola.", "Me llamo Jane.", "¿Cómo estás?", "¿De dónde eres?"];
 const shadowingLines = [
   "Hola, me llamo Jane.",
   "Mucho gusto. ¿Y tú?",
@@ -19,14 +19,14 @@ const shadowingLines = [
 ];
 
 const soundTips = [
-  "pero = 单 r，舌尖轻轻弹一下。",
-  "perro = rr，需要更明显的颤音；先不要追求完美，先区分长短。",
-  "carro / correo 的 o 要稳定，不要读成英语 ow。"
+  "Hola 的 h 不发音，开头直接读 o。",
+  "llamo 的 ll 先按拉美常见 y 音练。",
+  "cómo / estás / dónde 的重音要读清楚。"
 ];
 
 export default function SpeakPage() {
   const { progress, markPronunciation } = useProgress();
-  const profile = progress?.pronunciation["R / RR"];
+  const profile = progress?.pronunciation["Current stage sounds"];
 
   return (
     <div className="space-y-6">
@@ -52,9 +52,9 @@ export default function SpeakPage() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <p className="text-sm font-black text-sun">Today&apos;s Sound</p>
-            <h2 className="mt-2 text-4xl font-black">R / RR</h2>
+            <h2 className="mt-2 text-4xl font-black">A0 Sounds</h2>
             <p className="mt-3 max-w-xl text-sm font-semibold leading-6 text-stone-200">
-              Goal accent: México / Neutral Latin American Spanish. V1 tracks practice status only and does not invent AI scores.
+              Goal accent: broadly understandable Latin American Spanish. Today tracks intelligibility, clear vowels, word stress and first-conversation rhythm.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center text-xs font-black">
@@ -89,7 +89,7 @@ export default function SpeakPage() {
         </div>
 
         <div className="mt-6">
-          <Recorder listenText={targetWords.join(", ")} onRecorded={() => markPronunciation("R / RR")} />
+          <Recorder listenText={targetWords.join(" ")} onRecorded={() => markPronunciation("Current stage sounds")} />
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
