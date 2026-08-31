@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CheckCircle2, Clock, ListChecks, Map, PlayCircle, ScrollText } from "lucide-react";
+import { BookOpen, CheckCircle2, Clock, ListChecks, Map, PlayCircle, ScrollText, Volume2 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { lessons } from "@/course/lessons";
 import { levels } from "@/course/levels";
@@ -109,6 +109,20 @@ export default function LearnPage() {
 
         <Card className="h-fit">
           <h2 className="text-xl font-black">Focus</h2>
+          <Link
+            href="/phonics"
+            className="mt-4 flex items-center gap-3 rounded-lg bg-ink p-4 text-white transition hover:bg-stone-800"
+          >
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sun text-ink">
+              <Volume2 className="h-5 w-5" aria-hidden />
+            </div>
+            <div>
+              <div className="text-sm font-black">拼读先行</div>
+              <p className="mt-1 text-xs font-semibold leading-5 text-stone-100">
+                学每个 Day 前，先确认字母和重音怎么读。
+              </p>
+            </div>
+          </Link>
           <div className="mt-4 space-y-3 text-sm font-semibold leading-6 text-stone-800">
             <p>现在只做 Pre-A1 第一单元。</p>
             <p>每天是一个 30-45 分钟的小课包，不是一句句子。</p>
