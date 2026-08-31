@@ -26,6 +26,21 @@ export type PhonicsSection = {
   rules: PhonicsRule[];
 };
 
+export type AlphabetRow = {
+  letter: string;
+  name: string;
+  example: string;
+  audioText: string;
+};
+
+export type VowelSound = {
+  letter: string;
+  ipa: string;
+  mouth: string;
+  audioText: string;
+  examples: string[];
+};
+
 export const currentPhonicsDrills: PhonicsDrill[] = [
   {
     id: "hola",
@@ -101,34 +116,72 @@ export const currentPhonicsDrills: PhonicsDrill[] = [
   }
 ];
 
-export const alphabetRows = [
-  ["a", "a", "Ana"],
-  ["b", "be", "bien"],
-  ["c", "ce", "casa / cine"],
-  ["d", "de", "día"],
-  ["e", "e", "eres"],
-  ["f", "efe", "familia"],
-  ["g", "ge", "gato / gente"],
-  ["h", "hache", "hola"],
-  ["i", "i", "sí"],
-  ["j", "jota", "trabajo"],
-  ["k", "ka", "kilo"],
-  ["l", "ele", "la"],
-  ["m", "eme", "me"],
-  ["n", "ene", "no"],
-  ["ñ", "eñe", "niño"],
-  ["o", "o", "hola"],
-  ["p", "pe", "pero"],
-  ["q", "cu", "que"],
-  ["r", "erre", "eres / perro"],
-  ["s", "ese", "soy"],
-  ["t", "te", "tú"],
-  ["u", "u", "gusto"],
-  ["v", "uve", "vivo"],
-  ["w", "uve doble", "web"],
-  ["x", "equis", "examen / México"],
-  ["y", "ye", "yo / y"],
-  ["z", "zeta", "zapato"]
+export const vowelSounds: VowelSound[] = [
+  {
+    letter: "a",
+    ipa: "[a]",
+    mouth: "嘴巴打开，短促干净，像“啊”。",
+    audioText: "a. Ana. Casa.",
+    examples: ["Ana", "casa", "gracias"]
+  },
+  {
+    letter: "e",
+    ipa: "[e]",
+    mouth: "嘴角稍微展开，像短的“诶”。",
+    audioText: "e. Me. Eres.",
+    examples: ["me", "eres", "de"]
+  },
+  {
+    letter: "i",
+    ipa: "[i]",
+    mouth: "嘴角展开，像“衣”，不要变成英文 ai。",
+    audioText: "i. Sí. Vivo.",
+    examples: ["sí", "vivo", "China"]
+  },
+  {
+    letter: "o",
+    ipa: "[o]",
+    mouth: "嘴唇圆一点，短的“哦”，不要读成英语 ow。",
+    audioText: "o. Hola. Como.",
+    examples: ["hola", "cómo", "no"]
+  },
+  {
+    letter: "u",
+    ipa: "[u]",
+    mouth: "嘴唇收圆，像“乌”，不要读成英语 yu。",
+    audioText: "u. Tú. Gusto.",
+    examples: ["tú", "gusto", "mucho"]
+  }
+];
+
+export const alphabetRows: AlphabetRow[] = [
+  { letter: "a", name: "a", example: "Ana", audioText: "a. Ana." },
+  { letter: "b", name: "be", example: "bien", audioText: "be. Bien." },
+  { letter: "c", name: "ce", example: "casa / cine", audioText: "ce. Casa. Cine." },
+  { letter: "d", name: "de", example: "día", audioText: "de. Día." },
+  { letter: "e", name: "e", example: "eres", audioText: "e. Eres." },
+  { letter: "f", name: "efe", example: "familia", audioText: "efe. Familia." },
+  { letter: "g", name: "ge", example: "gato / gente", audioText: "ge. Gato. Gente." },
+  { letter: "h", name: "hache", example: "hola", audioText: "hache. Hola." },
+  { letter: "i", name: "i", example: "sí", audioText: "i. Sí." },
+  { letter: "j", name: "jota", example: "trabajo", audioText: "jota. Trabajo." },
+  { letter: "k", name: "ka", example: "kilo", audioText: "ka. Kilo." },
+  { letter: "l", name: "ele", example: "la", audioText: "ele. La." },
+  { letter: "m", name: "eme", example: "me", audioText: "eme. Me." },
+  { letter: "n", name: "ene", example: "no", audioText: "ene. No." },
+  { letter: "ñ", name: "eñe", example: "niño", audioText: "eñe. Niño." },
+  { letter: "o", name: "o", example: "hola", audioText: "o. Hola." },
+  { letter: "p", name: "pe", example: "pero", audioText: "pe. Pero." },
+  { letter: "q", name: "cu", example: "que", audioText: "cu. Que." },
+  { letter: "r", name: "erre", example: "eres / perro", audioText: "erre. Eres. Perro." },
+  { letter: "s", name: "ese", example: "soy", audioText: "ese. Soy." },
+  { letter: "t", name: "te", example: "tú", audioText: "te. Tú." },
+  { letter: "u", name: "u", example: "gusto", audioText: "u. Gusto." },
+  { letter: "v", name: "uve", example: "vivo", audioText: "uve. Vivo." },
+  { letter: "w", name: "uve doble", example: "web", audioText: "uve doble. Web." },
+  { letter: "x", name: "equis", example: "examen / México", audioText: "equis. Examen. México." },
+  { letter: "y", name: "ye", example: "yo / y", audioText: "ye. Yo. Y tú." },
+  { letter: "z", name: "zeta", example: "zapato", audioText: "zeta. Zapato." }
 ];
 
 export const phonicsSections: PhonicsSection[] = [
