@@ -513,5 +513,6 @@ export const phonicsSections: PhonicsSection[] = [
 export const sourceNotes = [
   "Reference basis: Spanish orthography and phonology conventions used in standard Spanish teaching, with CEFR phonological competence focused on intelligibility, articulation, stress, rhythm and prosody.",
   "Course target: broadly understandable Latin American Spanish. Mexico-specific items are marked as Mexico or regional reference items.",
+  "Letter names are for spelling aloud, not for pronouncing words. Word reading is taught through grapheme-sound patterns, syllables and stress.",
   "Pedagogy: current-stage drills stay tied to the learner's Can-Do tasks; the full system remains available as a lookup reference."
 ];
