@@ -184,7 +184,7 @@ export const alphabetRows: AlphabetRow[] = [
   { letter: "z", name: "zeta", example: "zapato", audioText: "zeta. Zapato." }
 ];
 
-export const phonicsSections: PhonicsSection[] = [
+const stagePhonicsSections: PhonicsSection[] = [
   {
     id: "vowels",
     title: "1. 元音和滑音",
@@ -510,9 +510,241 @@ export const phonicsSections: PhonicsSection[] = [
   }
 ];
 
+const advancedPhonicsSections: PhonicsSection[] = [
+  {
+    id: "stable-consonants",
+    title: "9. 稳定辅音",
+    subtitle: "这些字母大多按固定读法走，先用来建立读词信心。",
+    rules: [
+      {
+        id: "p-t-f",
+        title: "p / t / f 基本稳定",
+        pattern: "p / t / f",
+        explanation: "p、t、f 的读法比英语更短、更干净。t 通常用舌尖靠近上齿后方，不要读成很重的英语 t。",
+        examples: ["papá", "tú", "foto", "familia"],
+        watchOut: "不要在 p、t 后面加很强的送气，先练短、稳、清楚。",
+        priority: "now"
+      },
+      {
+        id: "l-m-n",
+        title: "l / m / n 基本稳定",
+        pattern: "l / m / n",
+        explanation: "l、m、n 很常见，读法稳定。n 在 b、p 前面会自然接近 m，这是口腔位置带来的自然变化。",
+        examples: ["la", "me", "no", "un beso", "un poco"],
+        watchOut: "这些变化不用刻意夸张；目标是自然连贯，不是拆得很机械。",
+        priority: "now"
+      },
+      {
+        id: "s",
+        title: "s 保持清楚",
+        pattern: "s",
+        explanation: "核心课程先把 s 读清楚。部分地区会弱化或省略词尾 s，但初学不要模仿省略。",
+        examples: ["sí", "soy", "gracias", "buenos días"],
+        watchOut: "初学先说清楚 todos / gracias / estás 里的 s，有助于可懂度。",
+        priority: "now",
+        variant: "regional"
+      },
+      {
+        id: "y-vowel",
+        title: "y 有时像辅音，有时像元音 i",
+        pattern: "y",
+        explanation: "yo、ya 里的 y 像辅音；单独作连接词 y 时常读作 i。",
+        examples: ["yo", "ya", "¿Y tú?", "madre y padre"],
+        watchOut: "¿Y tú? 里的 y 不读英语 why，更接近短的 i。",
+        priority: "now"
+      },
+      {
+        id: "k-w",
+        title: "k / w 多在外来词里出现",
+        pattern: "k / w",
+        explanation: "k 和 w 在普通西语词里少见，多用于外来词或专名。w 的读法可能接近 u 或 b/v，按具体词记。",
+        examples: ["kilo", "web", "wifi", "Washington"],
+        watchOut: "这些不是 Day 1-7 的重点；遇到真实词再听标准读法。",
+        priority: "reference"
+      }
+    ]
+  },
+  {
+    id: "syllable-division",
+    title: "10. 音节划分细则",
+    subtitle: "读新词时先拆拍，西语通常每一拍都比较清楚。",
+    rules: [
+      {
+        id: "single-consonant-between-vowels",
+        title: "两个元音中间一个辅音，辅音通常跟后面",
+        pattern: "V-CV",
+        explanation: "一个辅音夹在两个元音之间时，通常划到后一个音节。",
+        examples: ["ca-sa", "me-sa", "a-mi-go", "ho-la"],
+        watchOut: "casa 不是 cas-a，而是 ca-sa。",
+        priority: "now"
+      },
+      {
+        id: "two-consonants-between-vowels",
+        title: "两个辅音中间常分开",
+        pattern: "VC-CV",
+        explanation: "两个辅音夹在两个元音之间时，很多情况从中间分开。",
+        examples: ["al-to", "es-tás", "can-tar", "nom-bre"],
+        watchOut: "如果第二个辅音能和后面组成常见组合，划分会不同，比如 nom-bre。",
+        priority: "soon"
+      },
+      {
+        id: "allowed-clusters",
+        title: "常见辅音组合跟后面的元音走",
+        pattern: "bl/br/cl/cr/dr/fl/fr/gl/gr/pl/pr/tr",
+        explanation: "这些组合能作为一个音节的开头，所以常一起跟后面的元音走。",
+        examples: ["ha-blo", "li-bro", "gra-cias", "tra-ba-jo"],
+        watchOut: "gracias 是 gra-cias，不是 g-ra-cias。",
+        priority: "soon"
+      },
+      {
+        id: "digraph-syllable",
+        title: "ch / ll / rr 当作一个发音单位",
+        pattern: "ch / ll / rr",
+        explanation: "这些写成两个字母，但读词时当作一个发音单位处理。",
+        examples: ["mu-cho", "lla-mo", "pe-rro", "ca-lle"],
+        watchOut: "llamo 不拆成 l-la-mo，perro 不拆成 per-ro。",
+        priority: "now"
+      },
+      {
+        id: "vowel-nucleus",
+        title: "元音才是音节核心",
+        pattern: "vowels as nucleus",
+        explanation: "西语音节的核心是元音；辅音不能单独撑起一个音节。",
+        examples: ["y", "a-é-re-o", "co-ci-nar"],
+        watchOut: "看到很长的词，先找元音，再决定几拍。",
+        priority: "reference"
+      }
+    ]
+  },
+  {
+    id: "vowel-combinations",
+    title: "11. 元音组合",
+    subtitle: "会不会合成一拍，决定了一个词听起来是否自然。",
+    rules: [
+      {
+        id: "strong-weak-vowels",
+        title: "a/e/o 偏强，i/u 偏弱",
+        pattern: "a e o / i u",
+        explanation: "a、e、o 通常更容易形成独立音节；i、u 和其他元音相邻时更容易合成一拍。",
+        examples: ["bien", "cuando", "auto", "Europa"],
+        watchOut: "这是判断双元音和拆音节的基础。",
+        priority: "soon"
+      },
+      {
+        id: "diphthong-core",
+        title: "弱元音和强元音常合成双元音",
+        pattern: "ia / ie / io / ua / ue / uo",
+        explanation: "没有重音打断时，i/u 和 a/e/o 相邻常合成一拍。",
+        examples: ["gracias", "bien", "familia", "bueno"],
+        watchOut: "gracias 通常是 gra-cias，两拍，不是 gra-ci-as 三拍。",
+        priority: "now"
+      },
+      {
+        id: "two-weak-vowels",
+        title: "两个弱元音也常合成一拍",
+        pattern: "iu / ui",
+        explanation: "i 和 u 相邻时，通常也作为一个双元音读成一拍。",
+        examples: ["ciudad", "cuidado", "muy"],
+        watchOut: "muy 很短，不要读成 mu-i 两拍。",
+        priority: "soon"
+      },
+      {
+        id: "triphthongs",
+        title: "三合元音较少见，作为参考",
+        pattern: "iai / iei / uai / uei",
+        explanation: "弱元音 + 强元音 + 弱元音可以形成三合元音，通常出现在少量词形里。",
+        examples: ["Uruguay", "Paraguay", "estudiáis"],
+        watchOut: "这是低频规则，先能认出即可。",
+        priority: "reference"
+      }
+    ]
+  },
+  {
+    id: "allophones",
+    title: "12. 自然变音",
+    subtitle: "这些会让发音更自然，但初学优先级低于读清楚。",
+    rules: [
+      {
+        id: "soft-b-d-g",
+        title: "b/d/g 在词中常变轻",
+        pattern: "b d g between vowels",
+        explanation: "b、d、g 在元音之间或连续语流中常变得更轻，不一定像词首那样顶得很实。",
+        examples: ["vivo", "cada", "amigo", "todo"],
+        watchOut: "初学不要为了自然而吞掉，先读轻但清楚。",
+        priority: "reference"
+      },
+      {
+        id: "final-d",
+        title: "词尾 d 会变轻",
+        pattern: "-d",
+        explanation: "usted、Madrid 这类词尾 d 在不同地区有不同轻化方式；核心目标是别人能听懂。",
+        examples: ["usted", "Madrid", "verdad"],
+        watchOut: "这部分地区差异明显，不作为 Day 1-7 的硬性纠音。",
+        priority: "reference",
+        variant: "regional"
+      },
+      {
+        id: "resyllabification",
+        title: "跨词重组音节",
+        pattern: "vowel + vowel / consonant + vowel",
+        explanation: "自然语速里，词与词之间会重新连成更顺的音节。",
+        examples: ["dos amigos", "tomar algo", "vivo en México"],
+        watchOut: "先慢读分清，再听自然语速中的连接。",
+        priority: "soon"
+      },
+      {
+        id: "intonation-units",
+        title: "句子按意义分成语调单位",
+        pattern: "melodic units",
+        explanation: "西语不是一个词一个词机械读；短句通常连成一个语调单位，逗号、问号和感叹号会提示停顿和语气。",
+        examples: ["Me llamo Jane.", "Hola, ¿cómo estás?", "Muchas gracias."],
+        watchOut: "不要只盯单词音，句子的节奏和重音也影响可懂度。",
+        priority: "now"
+      }
+    ]
+  },
+  {
+    id: "checklist",
+    title: "13. 新词读音检查清单",
+    subtitle: "以后看到任何新词，按这个顺序查，比背字母名有效。",
+    rules: [
+      {
+        id: "reading-checklist",
+        title: "四步读新词",
+        pattern: "vowels -> graphemes -> syllables -> stress",
+        explanation: "先找元音，再看 c/g/q/h/ll/r/rr/x 等组合，然后拆音节，最后确定重音。",
+        examples: ["encantado", "guitarra", "¿quién?", "México"],
+        watchOut: "如果是专名、外来词或地区词，查音频，不硬猜。",
+        priority: "now"
+      },
+      {
+        id: "when-to-use-ipa",
+        title: "音标是校准工具，不是主路线",
+        pattern: "IPA as support",
+        explanation: "西语拼写和读音关系强，所以日常读词先靠规则。音标适合用来校准难音，比如 r/rr、j、ll/y。",
+        examples: ["pero / perro", "trabajo", "llamo"],
+        watchOut: "不要像学英语那样每个词都先查音标；先按规则读，再用音频纠偏。",
+        priority: "soon"
+      },
+      {
+        id: "needs-review-rule",
+        title: "不确定等级时标记 needs_review",
+        pattern: "needs_review",
+        explanation: "如果某个发音点的 CEFR/PCIC 等级、地区归属或现代常用性不确定，课程内容应标记为 needs_review。",
+        examples: ["Xochimilco", "vos", "distinción"],
+        watchOut: "不要为了显得完整，把低频或不确定内容提前塞进每日任务。",
+        priority: "reference"
+      }
+    ]
+  }
+];
+
+export const phonicsSections: PhonicsSection[] = [...stagePhonicsSections, ...advancedPhonicsSections];
+
 export const sourceNotes = [
-  "Reference basis: Spanish orthography and phonology conventions used in standard Spanish teaching, with CEFR phonological competence focused on intelligibility, articulation, stress, rhythm and prosody.",
-  "Course target: broadly understandable Latin American Spanish. Mexico-specific items are marked as Mexico or regional reference items.",
+  "Reference basis: RAE/ASALE orthography and standard Spanish phonology conventions, plus CEFR phonological competence focused on intelligibility, articulation, stress, rhythm and prosody.",
+  "Curriculum basis: Instituto Cervantes PCIC pronunciation, prosody and orthography categories are used to organize the reference sections.",
+  "Course target: broadly understandable Latin American Spanish. Mexico-specific items are marked as Mexico or regional reference items; uncertain items should be marked needs_review.",
   "Letter names are for spelling aloud, not for pronouncing words. Word reading is taught through grapheme-sound patterns, syllables and stress.",
   "Pedagogy: current-stage drills stay tied to the learner's Can-Do tasks; the full system remains available as a lookup reference."
 ];
