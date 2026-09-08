@@ -64,7 +64,7 @@ export default function TodayPage() {
           <div>
             <div className="text-sm font-black text-clay">Sounds first</div>
             <p className="mt-1 text-sm font-bold leading-6 text-stone-700">
-              今天先看拼读：a e i o u、h 不发音、ll 接近 y、重音怎么读。
+              今天先看读词规则：元音、字母组合、音节、重音，不按字母名读单词。
             </p>
           </div>
         </div>
