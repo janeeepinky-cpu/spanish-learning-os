@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, CheckCircle2, Ear, Languages, Mic2, Play, Volume2 } from "lucide-react";
+import { BookOpen, CheckCircle2, Ear, Languages, Mic2, Play, Route, Volume2 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { alphabetRows, currentPhonicsDrills, phonicsSections, sourceNotes, vowelSounds } from "@/course/content/phonics";
 import { primeSpanishSpeech, speakSpanish } from "@/lib/speech";
@@ -23,6 +23,64 @@ const priorityStyles = {
   reference: "bg-stone-100 text-stone-700"
 };
 
+const readingSteps = [
+  {
+    title: "1. 先看元音",
+    text: "a e i o u 基本稳定；它们决定音节骨架。"
+  },
+  {
+    title: "2. 再看字母组合",
+    text: "c/g/q/ll/r/h 这些会按位置变音，不按字母名读。"
+  },
+  {
+    title: "3. 拆成音节",
+    text: "把词切成几拍，例如 bue-nos、có-mo、lla-mas。"
+  },
+  {
+    title: "4. 最后定重音",
+    text: "有 á é í ó ú 就重读那一拍；没有再用默认重音规则。"
+  }
+];
+
+const wordReadingExamples = [
+  {
+    word: "casa",
+    chunks: "ca-sa",
+    rule: "c + a = k；重音默认在 ca。",
+    audio: "casa"
+  },
+  {
+    word: "cine",
+    chunks: "ci-ne",
+    rule: "拉美读法里 c + i = s；重音默认在 ci。",
+    audio: "cine"
+  },
+  {
+    word: "que",
+    chunks: "que",
+    rule: "qu + e = ke；u 不发音。",
+    audio: "que"
+  },
+  {
+    word: "llamo",
+    chunks: "lla-mo",
+    rule: "ll 在常见拉美读法里接近 y；重音默认在 lla。",
+    audio: "llamo"
+  },
+  {
+    word: "estás",
+    chunks: "es-tás",
+    rule: "á 标出重音，所以 tás 重读。",
+    audio: "estás"
+  },
+  {
+    word: "Buenos días",
+    chunks: "bue-nos dí-as",
+    rule: "ue 合成一拍；í 把 días 拆成两拍并重读 dí。",
+    audio: "Buenos días"
+  }
+];
+
 export default function PhonicsPage() {
   const [audioAvailable, setAudioAvailable] = useState(true);
   const nowDrills = currentPhonicsDrills.filter((item) => item.stage === "now");
@@ -38,7 +96,7 @@ export default function PhonicsPage() {
         <p className="text-sm font-bold text-clay">Sounds</p>
         <h1 className="mt-1 text-3xl font-black text-ink sm:text-4xl">Spanish spelling and sound system</h1>
         <p className="mt-2 text-sm font-semibold leading-6 text-stone-700">
-          西语确实有点像“拼音友好型语言”，但它有自己的拼读、重音、音节和地区差异。这里既能按当前阶段练，也能当完整规则表回溯。
+          西语读词主要不是背字母表，也不是像英语那样每个词都查音标。核心是：元音 + 字母组合 + 音节 + 重音。
         </p>
       </header>
 
@@ -52,8 +110,8 @@ export default function PhonicsPage() {
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {[
               ["1", "元音短稳", "a e i o u 不按英语读"],
-              ["2", "重音清楚", "cómo / estás / dónde"],
-              ["3", "能被听懂", "h、ll、r 先练到清楚"]
+              ["2", "组合变音", "h、ll、c/g/q 不按字母名读"],
+              ["3", "重音清楚", "có-mo / es-tás / dón-de"]
             ].map(([step, title, text]) => (
               <div key={step} className="rounded-lg bg-white/10 p-4">
                 <div className="grid h-8 w-8 place-items-center rounded-full bg-sun text-sm font-black text-ink">{step}</div>
@@ -77,11 +135,50 @@ export default function PhonicsPage() {
             {audioAvailable ? "Audio ready" : "Audio unavailable in this browser"}
           </div>
           <div className="mt-4 space-y-3 text-sm font-bold leading-6 text-stone-800">
-            <p>先看音节，再听一遍，然后自己读一遍。</p>
+            <p>字母名只在拼写姓名、邮箱、地址时有用；读单词时不要按字母名拼。</p>
+            <p>遇到新词时按顺序查：元音、字母组合、音节、重音。</p>
             <p>不要追求 native-like accent；目标是 intelligibility，也就是别人能听懂。</p>
-            <p>遇到新词时按顺序查：元音、c/g/q、重音、r/rr、ll/y、地区差异。</p>
           </div>
         </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div>
+          <p className="text-sm font-black text-clay">Reading Words</p>
+          <h2 className="mt-1 text-2xl font-black text-ink">西语单词到底怎么读</h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {readingSteps.map((step) => (
+            <Card key={step.title}>
+              <Route className="h-6 w-6 text-clay" aria-hidden />
+              <h3 className="mt-3 text-lg font-black text-ink">{step.title}</h3>
+              <p className="mt-2 text-sm font-bold leading-6 text-stone-700">{step.text}</p>
+            </Card>
+          ))}
+        </div>
+
+        <div className="grid gap-3 lg:grid-cols-2">
+          {wordReadingExamples.map((example) => (
+            <button
+              key={example.word}
+              type="button"
+              onClick={() => speakSpanish(example.audio)}
+              className="rounded-lg border border-stone-200 bg-white p-4 text-left shadow-soft transition hover:border-clay/40 hover:bg-[#fffdf8]"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-2xl font-black text-ink">{example.word}</div>
+                  <div className="mt-1 font-mono text-sm font-black text-clay">{example.chunks}</div>
+                </div>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sun text-ink">
+                  <Volume2 className="h-5 w-5" aria-hidden />
+                </span>
+              </div>
+              <p className="mt-3 text-sm font-bold leading-6 text-stone-700">{example.rule}</p>
+            </button>
+          ))}
+        </div>
       </section>
 
       <section className="space-y-4">
@@ -121,30 +218,6 @@ export default function PhonicsPage() {
                 ))}
               </div>
             </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <div>
-          <p className="text-sm font-black text-clay">Alphabet</p>
-          <h2 className="mt-1 text-2xl font-black text-ink">字母表：点每张卡听字母名和例词</h2>
-        </div>
-
-        <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {alphabetRows.map((row) => (
-            <button
-              key={row.letter}
-              type="button"
-              onClick={() => speakSpanish(row.audioText)}
-              className="flex items-center justify-between gap-3 rounded-lg border border-stone-200 bg-white px-4 py-3 text-left shadow-soft transition hover:border-clay/40 hover:bg-[#fffdf8]"
-            >
-              <span className="text-2xl font-black text-ink">{row.letter}</span>
-              <span className="min-w-0 text-right">
-                <span className="block text-xs font-black uppercase text-clay">{row.name}</span>
-                <span className="block truncate text-sm font-bold text-stone-700">{row.example}</span>
-              </span>
-            </button>
           ))}
         </div>
       </section>
@@ -267,6 +340,31 @@ export default function PhonicsPage() {
           </div>
         </div>
       </Card>
+
+      <section className="space-y-4">
+        <div>
+          <p className="text-sm font-black text-clay">Alphabet Names</p>
+          <h2 className="mt-1 text-2xl font-black text-ink">字母表只作为拼写参考</h2>
+          <p className="mt-2 text-sm font-semibold leading-6 text-stone-700">
+            这些是字母名，不等于字母在单词里的真实读音。比如 c 叫 ce，但 casa 里的 c 读 k，cine 里的 c 在拉美读 s。
+          </p>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+          {alphabetRows.map((row) => (
+            <div
+              key={row.letter}
+              className="flex items-center justify-between gap-3 rounded-lg border border-stone-200 bg-white/80 px-4 py-3 shadow-soft"
+            >
+              <span className="text-2xl font-black text-ink">{row.letter}</span>
+              <span className="min-w-0 text-right">
+                <span className="block text-xs font-black uppercase text-clay">{row.name}</span>
+                <span className="block truncate text-sm font-bold text-stone-700">{row.example}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="grid gap-4 md:grid-cols-2">
         {nextDrills.map((item) => (
