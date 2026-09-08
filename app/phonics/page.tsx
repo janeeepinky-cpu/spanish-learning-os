@@ -81,10 +81,25 @@ const wordReadingExamples = [
   }
 ];
 
+const coverageHighlights = [
+  "元音",
+  "双元音",
+  "音节",
+  "重音",
+  "c/g/q",
+  "r/rr",
+  "ll/y",
+  "连读",
+  "标点",
+  "地区差异",
+  "外来词"
+];
+
 export default function PhonicsPage() {
   const [audioAvailable, setAudioAvailable] = useState(true);
   const nowDrills = currentPhonicsDrills.filter((item) => item.stage === "now");
   const nextDrills = currentPhonicsDrills.filter((item) => item.stage === "next");
+  const ruleCount = phonicsSections.reduce((total, section) => total + section.rules.length, 0);
 
   useEffect(() => {
     setAudioAvailable(primeSpanishSpeech());
@@ -181,6 +196,42 @@ export default function PhonicsPage() {
         </div>
       </section>
 
+      <Card className="bg-[#fffdf8]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-sm font-black text-clay">Reference Map</p>
+            <h2 className="mt-1 text-2xl font-black text-ink">这页现在是完整拼读规则索引</h2>
+            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-stone-700">
+              每日学习只推你当下需要的规则；这里保留完整体系，方便你以后看到新词时回溯检查。
+            </p>
+          </div>
+          <div className="shrink-0 rounded-xl bg-white px-4 py-3 text-left shadow-sm lg:text-right">
+            <div className="text-3xl font-black text-ink">{ruleCount}</div>
+            <div className="text-xs font-black uppercase text-clay">rules covered</div>
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {coverageHighlights.map((item) => (
+            <span key={item} className="rounded-full bg-white px-3 py-2 text-xs font-black text-ink shadow-sm">
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {phonicsSections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm font-black text-ink shadow-sm transition hover:border-clay/40 hover:bg-paper"
+            >
+              {section.title}
+            </a>
+          ))}
+        </div>
+      </Card>
+
       <section className="space-y-4">
         <div>
           <p className="text-sm font-black text-clay">Vowels</p>
@@ -269,7 +320,10 @@ export default function PhonicsPage() {
       <section className="space-y-4">
         <div>
           <p className="text-sm font-black text-clay">Spelling Rules</p>
-          <h2 className="mt-1 text-2xl font-black text-ink">完整拼读体系</h2>
+          <h2 className="mt-1 text-2xl font-black text-ink">完整规则参考</h2>
+          <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-stone-700">
+            这是西语读词的核心规则库，不是每日任务清单。先掌握 now，再把 soon 和 reference 当作查表工具。
+          </p>
         </div>
 
         <div className="space-y-5">
